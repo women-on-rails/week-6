@@ -103,6 +103,8 @@ Cette table ````curiosities```` a plusieurs colonnes (que l'on décrit dans le "
 
 On peut créer les deux dernières colonnes (````created_at```` et ````updated_at````) en un coup grâce à un raccourci : la ligne ````t.timestamps null: false````. Il est intéressant de noter que vous n'avez pas besoin de "penser" à ces deux champs : rien qu'avec leur nom, Ruby on Rails détecte que ce sont des champs pour garder les dates de création et modification (si vous aviez des champs de création / modification qui ne sont PAS nommés ainsi, il faudrait le faire soi-même).
 
+Dans le cadre de l'exercice, notez que la migration CreateCuriosity a déjà été appliquée à la base de données.
+
 Lorsque des migrations ont été effectuées sur la base de données de votre application, il est possible de retrouver sa structure complète dans le fichier ````/db/schema.rb````.
 
 Ouvrez ce fichier. Vous pouvez constater que vous retrouvez la méthode de création de la table ````Curiosities````, avec tout ce qui la compose. 
@@ -143,6 +145,8 @@ Curiosity Load (0.2ms)  SELECT  "curiosities".* FROM "curiosities" WHERE "curios
  ````
 
 La ligne avec l'identifiant 1 de la table ````Curiosity```` de la base de données a été abstraite dans le modèle (ou classe) ````Curiosity```` de l'application, ce qui donne une instance de ce modèle. 
+
+Nous allons maintenant quitter la console Rails : pour cela, tapez "exit" dans la console à partir du terminal. 
 
 #### Ajouter de nouveaux attributs
 
