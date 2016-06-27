@@ -21,7 +21,7 @@ Puis, faites la commande suivante, en remplaçant (votre compte) dans cette adre
 ``` Console
 git remote add origin git@github.com:(votre compte)/week-5.git
 ````
-Cela vous permet de synchroniser votre compte github avec les modifications que vous ferez sur le projet week-5 sur votre ordinateur.
+Cela vous permet de synchroniser votre compte github avec les modifications que vous ferez sur le projet ````week-5```` sur votre ordinateur.
 
 À cette étape, si vous faites ````ls```` dans votre console, le dossier ````week-5```` doit être vide.
 Et si vous faites ````ls -a```` le dossier ````week-5```` ne contient que les fichiers de configuration de git, dans le dossier caché ````.git````.
@@ -48,7 +48,7 @@ Vous voila prête pour l'exercice !
 
 ### Lancer le serveur sur lequel va tourner l'application
 
-En premier lieu, vérifiez que votre application a tous les plug-ins qu'elle utilise à disposition : vous pouvez les installer automatiquement en faisant la commande ````bundle install```` dans votre console, à l'intérieur du dossier de votre projet ````week-5````.
+En premier lieu, vérifiez que votre application a tous les Gems (plug-ins, bibliothèques... bref des briques de code) qu'elle utilise à disposition : vous pouvez les installer automatiquement en faisant la commande ````bundle install```` dans votre console, à l'intérieur du dossier de votre projet ````week-5````.
 
 Si un problème survient au niveau de la version de ruby, vous devriez avoir besoin d'effectuer la commande ````rbenv install 2.3.1```` dans la console pour installer la version de ruby dont l'application a besoin. 
 (Si rbenv ne connait pas cette version, utilisez la commande ````brew update && brew upgrade ruby-build```` avant)
@@ -59,21 +59,22 @@ Et voila, votre serveur est lancé !
 
 ### Visualiser l'application sur le navigateur
 
-Apres avoir lancé votre serveur, vous pourrez ouvrir votre navigateur pour y coller l'URL suivante : http://localhost:3000/
+Après avoir lancé votre serveur, vous pourrez ouvrir votre navigateur pour y coller l'URL suivante : [http://localhost:3000/](http://localhost:3000/)
 Vous devriez visualiser le contenu de la vue que vous avez ouverte précédement. 
-Apres avoir fait des modifications sur cette vue, vous n'aurez qu'à recharger la page du navigateur pour voir vos modifications apparaître. (rafraichir: F5 ou ````CTRL + R```` sous windows, ````CMD + R```` sous mac)
+Apres avoir fait des modifications sur cette vue, vous n'aurez qu'à recharger la page du navigateur pour voir vos modifications apparaître. (rafraîchir: F5 ou ````CTRL + R```` sous windows, ````CMD + R```` sous mac)
 
 ### Manipuler des objets dans la console 
 
 #### La base de données et ses migrations
 
-Lorsque l'on crée une application, on écrit des algorithmes visant à manipuler des données que l'on veut pouvoir conserver et dont la source est ce que l'on appelle une base de données. 
+Lorsque l'on crée une application, on écrit des algorithmes visant à manipuler des données.
+On veut pouvoir en conserver certaines dans la durée, et c'est le rôle de ce que l'on appelle une "base de données".
 
-Une base de données est un composant dans lequel on peut stocker des informations de manière structurée, en évitant au maximum les redondances, pour les réutiliser de diverses manières. 
+Une base de données est un logiciel dans lequel on peut stocker des informations de manière structurée, en évitant au maximum les redondances, pour les réutiliser de diverses manières. 
 
-Une migration est ce qui va permettre de faire évoluer la structure et le contenu de la base de données, au fil du développement d'un projet. Les migrations ne prennent pas en compte le type de base de données utilisé. Elles fonctionnent sur n'importe quelle base de données supportée par Ruby On Rails. 
+Dans Rails, une "migration" est ce qui va permettre de faire évoluer la structure et le contenu de la base de données, au fil du développement d'un projet. Les migrations ne prennent pas en compte le type de base de données utilisé. Elles fonctionnent sur n'importe quelle base de données gérée par Ruby On Rails. 
 
-En ouvrant le fichier /db/migrate/20160618174815_create_curiosities.rb, vous pouvez voir comment est composée une migration de création de table. 
+En ouvrant le fichier ````/db/migrate/20160618174815_create_curiosities.rb```` (les chiffres peuvent changer en fonction de la date à laquelle vous l'avez faite) vous pouvez voir comment est composée une migration qui créée une table. 
 
 ```Ruby 
 class CreateCuriosities < ActiveRecord::Migration
@@ -90,46 +91,46 @@ class CreateCuriosities < ActiveRecord::Migration
 end
 ````
 
-Une migration est une classe de type ````ActiveRecord::Migration````. La migration CreateCuriosities contient une méthode ````change```` qui, lorsque l'on processe la migration, va créer la table ````curiosities```` dans la base de données (````create_table :curiosities````). 
+Une migration est une classe de type ````ActiveRecord::Migration````. La migration ````CreateCuriosities```` contient une méthode ````change```` qui, lorsque l'on applique la migration, va créer la table ````curiosities```` dans la base de données (````create_table :curiosities````). 
 
-Cette table ````curiosities```` a plusieurs colonnes (block ````do````):
-- name : le nom d'une curiosité, qui est une petite chaine de caractères (````String````)
-- description : la description de la curiosité, qui est une grande chaine de caractères (````Text````)
-- image_url : l'url vers l'image de la curiosité, qui est une grande chaine de caractères (````Text````)
-- image_text : légende accompagnant l'image de la curiosité, qui est une petite chaine de caractères (````String````)
-- created_at : date de création d'une curiosité, qui est un objet ````DateTime```` (date + horaire)
-- updated_at : date de derniere mise à jour d'une curiosité, qui est un objet ````DateTime```` (date + horaire)
+Cette table ````curiosities```` a plusieurs colonnes (que l'on décrit dans le "block" ````do````):
+- ````name```` : le nom d'une curiosité, qui est une petite chaine de caractères (````String````)
+- ````description```` : la description de la curiosité, qui est une grande chaine de caractères (````Text````)
+- ````image_url```` : l'url vers l'image de la curiosité, qui est une grande chaine de caractères (````Text````)
+- ````image_text```` : légende accompagnant l'image de la curiosité, qui est une petite chaine de caractères (````String````)
+- ````created_at```` : date de création d'une curiosité, qui est un objet ````DateTime```` (date + horaire)
+- ````updated_at```` : date de derniere mise à jour d'une curiosité, qui est un objet ````DateTime```` (date + horaire)
 
-Les deux dernières colonnes (created_at et updated_at) sont créées grace à la ligne ````t.timestamps null: false````, ajoutée automatiquement par Ruby On Rails. 
+On peut créer les deux dernières colonnes (````created_at```` et ````updated_at````) en un coup grâce à un raccourci : la ligne ````t.timestamps null: false````. Il est intéressant de noter que vous n'avez pas besoin de "penser" à ces deux champs : rien qu'avec leur nom, Ruby on Rails détecte que ce sont des champs pour garder les dates de création et modification (si vous aviez des champs de création / modification qui ne sont PAS nommés ainsi, il faudrait le faire soi-même).
 
-Lorsque des migrations ont été effectuées sur la base de données de votre application, il est possible de retrouver sa structure complète dans le fichier /db/schema.rb
+Lorsque des migrations ont été effectuées sur la base de données de votre application, il est possible de retrouver sa structure complète dans le fichier ````/db/schema.rb````.
 
-Ouvrez ce fichier. Vous pouvez constater que vous retrouvez la méthode de créationd e la table ````Curiosities````, avec tout ce qui la compose. 
+Ouvrez ce fichier. Vous pouvez constater que vous retrouvez la méthode de création de la table ````Curiosities````, avec tout ce qui la compose. 
 
-Astuce : 
-Une migration a un identifiant. Cela permet à votre application de savoir quelle est la derniere migration qui a été processée, pour éviter de la rejouer. Cet identifiant de migration est visible dans le nom du fichier de la migration. 
+> Astuce : 
+> Une migration a un identifiant. Cela permet à votre application de savoir quelle est la dernière migration qui a été traitée, pour éviter de la rejouer. Cet identifiant de migration est visible dans le nom du fichier de la migration. 
 
-Vous pouvez voir à quelle migration vous en etes dans le fichier /db/schema.rb avec ````version: 20160618174815````.
+Vous pouvez voir à quelle migration vous en êtes dans le fichier ````/db/schema.rb```` avec ````version: 20160618174815````.
 
-#### Active Record et les modèles
+#### ActiveRecord et les modèles
 
-Active Record est la partie de Ruby On Rails qui permet de manipuler les informations stockées en base de données avec des modèles. 
+ActiveRecord est la partie de Ruby On Rails qui permet de manipuler les informations stockées en base de données avec des classes Ruby (qu'on appelle les modèles).
 
-Cela permet de représenter les attributs d'une table de la base de données dans un modèle, pour avoir accès à chacune des lignes de cette table et pouvoir les manipuler. 
+Cela permet de représenter les attributs d'une table de la base de données dans un modèle, pour avoir accès à chacune des lignes de cette table (comme une ligne dans Excel !) et pouvoir les manipuler. 
 
-Astuce : Avec Ruby On Rails, une classe s'appelle aussi un modèle. 
+> Astuce : Avec Ruby On Rails, ces classes s'appellent aussi des modèles. 
 
 Ouvrez votre terminal puis ouvrez une console Ruby On Rails : ````rails console```` (ou ````rails c````)
 
 Nous allons maintenant récupérer une curiosité stockée en base de données. Dans votre console, tappez ````curiosity = Curiosity.find(1)````
 
-Cela va d'abord vous afficher la requete faite grace à Active Record pour récupérer la curiosité #1 en base de données:
+Cela va d'abord vous afficher la requête SQL faite grâce à Active Record pour récupérer la curiosité qui a l'identifiant `1` en base de données (ici ce sont des numéros croissants donc c'est la numéro 1 ou #1, mais ça n'est pas obligé) :
 
 ````
 Curiosity Load (0.2ms)  SELECT  "curiosities".* FROM "curiosities" WHERE "curiosities"."id" = ? LIMIT 1  [["id", 1]]
 ````
 
-A la suite de cette ligne, vous pouvez voir l'objet qui représente la curiosité #1 avec tous ses attributs : 
+À la suite de cette ligne, vous pouvez voir l'objet qui représente la curiosité #1 avec tous ses attributs : 
 
 ````
 #<Curiosity:0x007f9f697791c8
@@ -147,20 +148,20 @@ La ligne avec l'identifiant 1 de la table ````Curiosity```` de la base de donné
 
 #### Ajouter de nouveaux attributs
 
-Nous aimerions que chaque curiosité ait une catégorie spécifique. Par exemple:
+Nous aimerions ranger chaque curiosité dans des catégories, une par curiosité. Par exemple :
 - le joli mug sera de catégorie ````Vaisselle```` 
 - la bobine de fil sera de catégorie ````Coffre à jouet````
 - le super t-shirt sera de catégorie ````Penderie````
 - le jeu de société Catopoly sera de catégorie ````Coffre à jouet````
 - etc
 
-Pour cela, il faut ajouter un nouvel attribut ````Category```` à la table ````Curiosity```` de la base de données. Pour demander à Ruby On Rails de créer notre nouvelle migration, il faut utiliser le générateur de migration avec la commande suivante dans le terminal : 
+Pour cela, il faut ajouter un nouvel attribut ````Category```` à la table ````Curiosity```` de la base de données. Pour demander à Ruby On Rails de créer notre nouvelle migration, il faut utiliser le générateur de migrations avec la commande suivante dans le terminal : 
 
 ````
 rails generate migration add_category_to_curiosities category:string
 ````
 
-Cette commande crée un nouveau fichier de migration dans le dossier /db de l'application. Ouvrez le.
+Cette commande crée un nouveau fichier de migration dans le dossier ````db```` situé à la racine du dossier de l'application. Ouvrez-le avec````cd db````.
 
 Le contenu devrait ressembler à cela :
 
@@ -172,14 +173,16 @@ class AddCategoryToCuriosities < ActiveRecord::Migration
 end
 ````
 
-Il y a donc la classe ````AddCategoryToCuriosities```` qui a la méthode ````change```` permettant de faire des modifications sur la base de données. 
+Il y a donc la classe ````AddCategoryToCuriosities````, qui "hérite" de ````ActiveRecord::Migration```` (elle sait faire tout ce que sa classe mère sait faire). Dans cette classe-là, on a la méthode ````change```` permettant de faire des modifications sur la base de données. 
 
 Dans la méthode ````change````, il y a la ligne ````add_column :curiosities, :type, :string````. ````add_column```` veut dire que l'on demande à ajouter une colonne à une table qui s'appelle ````Curiosities```` (````:curiosities````) et que cette nouvelle colonne s'appelle ````category```` (````:category````) et est de type ````String````.
 
-Le fichier de la migration a été créé, mais n'a pas encore été processé. D'ailleurs, si on regarde le fichier db/schema.rb, le numéro de version n'est pas encore celui de cette mirgation. (Il est encore à ````20160618174815````)
+Le fichier de la migration a été créé, mais n'a pas encore été exécuté. D'ailleurs, si on regarde le fichier ````db/schema.rb````, le numéro de version n'est pas encore celui de cette mirgation : il est encore au numéro de celle d'avant (dans notre exemple ````20160618174815````).
 
 Pour appliquer notre nouvelle migration, nous devons effectuer la commande suivante dans le terminal :
 ````rake db:migrate````
+
+````rake```` est un outil permettant de lancer des "tâches", il a une "famille" de tâches "db" pour gérer la base de données, et on souhaite qu'il exécute la tâche ````migrate````.
 
 Cela devrait afficher quelque chose de similaire à : 
 ````
@@ -189,7 +192,7 @@ $ rake db:migrate
 #   -> 0.0029s
 #== 20160626095924 AddCategoryToCuriosities: migrated (0.0029s) ================
 ````
-Grace à ce message, on sait que notre migration a été effectuée avec succès. Si on rouvre de nouveau le fichier db/schema.rb, on peut voir que le numéro de version a été mis à jour et que notre nouvelle colonne est bien prise en compte : 
+Grace à ce message, on sait que notre migration a été effectuée avec succès. Si on rouvre de nouveau le fichier ````db/schema.rb````, on peut voir que le numéro de version a été mis à jour et que notre nouvelle colonne est bien prise en compte : 
 ```Ruby 
   create_table "curiosities", force: :cascade do |t|
     t.string   "name"
@@ -202,15 +205,15 @@ Grace à ce message, on sait que notre migration a été effectuée avec succès
   end
 ````
 
-Revenons dans une console Ruby On Rails pour voir ce qu'il en est de notre instance de classe ````Curiosity````. Tappez ````curiosity = Curiosity.find(1)````
+Revenons dans une console Ruby On Rails pour voir ce qu'il en est de notre instance de classe ````Curiosity````. Tapez ````curiosity = Curiosity.find(1)````
 
-Cela va de nouveau vous afficher la requete faite grace à Active Record pour récupérer la curiosité #1 en base de données:
+Cela va de nouveau vous afficher la requête que ActiveRecord envoie à la base de données pour récupérer la curiosité #1 :
 
 ````
 Curiosity Load (0.2ms)  SELECT  "curiosities".* FROM "curiosities" WHERE "curiosities"."id" = ? LIMIT 1  [["id", 1]]
 ````
 
-Puis, vous pouvez voir l'objet qui représente la curiosité #1 avec tous ses attributs, dont l'attribut ````category````pour le moment vide : 
+Puis, vous pouvez voir l'objet qui représente la curiosité #1 avec tous ses attributs, dont l'attribut ````category````... qui est vide pour le moment : 
 
 ````
 #<Curiosity:0x007ff36803a300
@@ -227,9 +230,11 @@ Puis, vous pouvez voir l'objet qui représente la curiosité #1 avec tous ses at
 
 #### Pour aller plus loin
 
-Si vous souhaitez renseigner les catégories de toutes vos curiosités, il serait intéressant de rajouter une validation au niveau du modèle ````Curiosity```` pour que l'attribut ````category```` n'accepte que quelques valeurs. Cela permet d'etre sur de ce qu'il y a en base de donnée et d'éviter les doublons 'cachés'. Par exemple, si on veut avoir une catégorie 'Penderie', pour simplifier la recherche sur cette catégorie, on ne veut pas pouvoir créer des curiosités avec la catégorie 'penderie' ou 'pendrie' ou encore 'PenDeRie'. Seule la 'Penderie' sera acceptée comme valeur de l'attribut ````category````.
+Si vous souhaitez renseigner les catégories de toutes vos curiosités, il serait intéressant de rajouter une validation au niveau du modèle ````Curiosity```` pour que l'attribut ````category```` n'accepte que quelques valeurs. Cela permet d'être sûr de ce qu'il y a en base de données et d'éviter les doublons 'cachés'.
 
-Aidez vous de la page 'Validations' du guide Ruby On Rails (http://guides.rubyonrails.org/active_record_validations.html) et ajoutez une validation au nveau de l'attribut ````caegory```` du modèle ````Curiosity```` pour n'accepter que les valeurs suivantes : 
+Par exemple, si on veut avoir une catégorie 'Penderie', pour simplifier la recherche sur cette catégorie, on ne veut pas pouvoir créer des curiosités avec la catégorie 'penderie' ou 'pendrie' ou encore 'PenDeRie'. Seule la 'Penderie' sera acceptée comme valeur de l'attribut ````category````.
+
+Aidez vous de la page 'Validations' du guide Ruby On Rails (http://guides.rubyonrails.org/active_record_validations.html) et ajoutez une validation au niveau de l'attribut ````category```` du modèle ````Curiosity```` pour n'accepter que les valeurs suivantes : 
 - Penderie
 - Coffre à jouets
 - Vaisselle
@@ -237,7 +242,7 @@ Aidez vous de la page 'Validations' du guide Ruby On Rails (http://guides.rubyon
 - Amis
 - Bibliothèque
 
-# Étape 3 : Enregistrer les modifications sur le répertoire distant
+# Étape 3 : Enregistrer les modifications sur le dépôt distant
 
 Lorsque vous avez fait des modifications dans votre projet ````week-5````, vous pouvez avoir besoin de les enregistrer pour ne pas les effacer malencontreusement. Pour cela, vous allez les ````commit```` (par abus de langage en français "commiter") : sauvegarder l'ensemble des modifications, pas pour votre éditeur de texte, mais pour git.
 
@@ -281,12 +286,12 @@ Pour envoyer votre commit vers votre repertoire distant (sur Github), vous devez
 git push 
 ````
 
-Allez voir sur github, vos modifications apparaitront :)
+Allez voir sur github, vos modifications apparaîtront :)
 
 # Pour aller plus loin :
 - La documentation de Ruby : http://ruby-doc.org/core-2.3.1/
 - La documentation de Ruby On Rails : http://api.rubyonrails.org/
-- Active Record : https://fr.wikipedia.org/wiki/Active_record (FR) ou http://guides.rubyonrails.org/active_record_basics.html (EN)
+- Active Record : https://fr.wikipedia.org/wiki/Active_record (concept en français) ou http://guides.rubyonrails.org/active_record_basics.html (introduction de Rails, en anglais)
 - Comparaison entre Sqlite, MySql et Postgres (EN) : https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems
 - Les migrations (EN) : http://guides.rubyonrails.org/active_record_migrations.html
 - Les validations (EN) : http://guides.rubyonrails.org/active_record_validations.html
