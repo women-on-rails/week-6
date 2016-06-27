@@ -118,8 +118,6 @@ ActiveRecord est la partie de Ruby On Rails qui permet de manipuler les informat
 
 Cela permet de représenter les attributs d'une table de la base de données dans un modèle, pour avoir accès à chacune des lignes de cette table (comme une ligne dans Excel !) et pouvoir les manipuler. 
 
-> Astuce : Avec Ruby On Rails, ces classes s'appellent aussi des modèles. 
-
 Ouvrez votre terminal puis ouvrez une console Ruby On Rails : ````rails console```` (ou ````rails c````)
 
 Nous allons maintenant récupérer une curiosité stockée en base de données. Dans votre console, tappez ````curiosity = Curiosity.find(1)````
@@ -161,7 +159,7 @@ Pour cela, il faut ajouter un nouvel attribut ````Category```` à la table ````C
 rails generate migration add_category_to_curiosities category:string
 ````
 
-Cette commande crée un nouveau fichier de migration dans le dossier ````db```` situé à la racine du dossier de l'application. Ouvrez-le avec````cd db````.
+Cette commande crée un nouveau fichier de migration dans le dossier ````db```` situé à la racine du dossier de l'application. Ouvrez ce fichier de migration avec votre éditeur de texte.
 
 Le contenu devrait ressembler à cela :
 
@@ -182,7 +180,7 @@ Le fichier de la migration a été créé, mais n'a pas encore été exécuté. 
 Pour appliquer notre nouvelle migration, nous devons effectuer la commande suivante dans le terminal :
 ````rake db:migrate````
 
-````rake```` est un outil permettant de lancer des "tâches", il a une "famille" de tâches "db" pour gérer la base de données, et on souhaite qu'il exécute la tâche ````migrate````.
+````rake```` est un outil permettant de lancer des "tâches". Il a une "famille" de tâches "db" pour gérer la base de données, et on souhaite qu'il exécute la tâche ````migrate````.
 
 Cela devrait afficher quelque chose de similaire à : 
 ````
