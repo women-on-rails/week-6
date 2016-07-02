@@ -45,7 +45,7 @@ Vous voila prête pour l'exercice !
 
 # Étape 2 : Lire l'exercice et se lancer
 
-[Retrouvez les slides du cours](http://slides.com/soniaprevost/womenonrails-week5#/)
+[Retrouvez les slides du cours](http://slides.com/women_on_rails/week-6)
 
 ### Lancer le serveur sur lequel va tourner l'application
 
