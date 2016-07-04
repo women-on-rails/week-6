@@ -1,5 +1,5 @@
 class CuriositiesController < ApplicationController
   def index
-	@curiosities = Curiosity.all
+    @curiosities = Curiosity.all
   end
 end

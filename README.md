@@ -47,6 +47,84 @@ Vous voila prête pour l'exercice !
 
 [Retrouvez les slides du cours](http://slides.com/women_on_rails/week-6)
 
+## Détruire une instance en passant par le navigateur
+
+### Créer la route
+
+Pour commencer, nous allons créer une nouvelle route dans le fichier ````config/routes.rb```` pour signifier à la fois quelle action HTTP nous voulons accomplir (ici ````delete````), le controleur de l'objet associé (ici ````curiosities````) et la méthode qui définira l'action à faire quand l'utilisateur cliquera sur le lien (ici ````destroy````).
+
+Rajoutez la ligne suivante dans le fichier ````config/routes.rb```` :
+
+````delete '/curiosity/:id', to: 'curiosities#destroy', as: 'curiosity'````
+
+### Ajouter la méthode correspondante dans le controleur
+
+Maintenant, il s'agit de définir ce qu'il se passe quand l'utilisateur va cliquer sur le lien pour détruire une instance. Dans la méthode ````destroy````, nous allons récupérer l'instance que nous voulons supprimer, grâce aux paramètres de l'url ````/curiosities/25````. Ensuite, nous allons la supprimer dans la base de données grâce à la méthode ````.delete```` et ensuite rediriger l'utilisateur sur la vue de toutes les curiosités.
+
+Rajoutez la méthode ````destroy```` et ce qu'elle fait dans le controleur ````Curiosities```` qui se trouve dans ````app/controllers/curiosities.rb```` :
+
+``` Ruby
+def destroy
+  @curiosity = Curiosity.find(params[:id]) # Récupère l'id de la curiosité à supprimer
+  @curiosity.delete                        # Supprime la curiosité dans la base de données
+
+  redirect_to curiosity_path               # Redirige l'utilisateur vers la vue Index
+end
+````
+
+> Astuce : 
+> Les valeurs contenues dans la variable params viennent du navigateur de l'utilisateur. 
+> Il les envoie au serveur lorsqu'une requete est effectuée. Par exemple, si un utilisateur demande:
+> http://localhost:3000/curiosities?toto=poulpe
+
+> Alors params[:toto] sera égal à poulpe.
+
+> La variable ````params```` est simplement un tableau de valeurs accessibles grace à des clés. 
+> Ici la valeur à laquelle accéder est ````poulpe```` et la clé d'accès est ````:toto````.
+
+
+### Ajouter le lien pour supprimer les curiosités dans la vue
+
+Il faut maintenant afficher à l'utilisateur qu'il peut supprimer une curiosité. Pour cela, dans la vue, nous allons créer un lien dans la boucle de toutes les curiosités contenant le chemin pour détruire une instance en particulier.
+
+Un lien dynamique se construit de cette façon en rails :
+
+````<%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_controleur %>````
+
+Il faut donc connaître le chemin (````path````) qui indiquera la route dans le fichier ````config/routes.rb```` vers la méthode du controleur. Pour trouver ce chemin, vous pouvez entrer ````rake routes```` dans votre terminal. Ce qui vous donne :
+
+``` Console
+     Prefix Verb   URI Pattern              Controller#Action
+       root GET    /                        curiosities#index
+curiosities GET    /curiosities(.:format)   curiosities#index
+  curiosity DELETE /curiosity/:id(.:format) curiosities#destroy
+````
+
+Vous retrouvez bien le verbe HTTP ````DELETE```` (cf Verb), l'url ````/curiosity/:id```` (cf URI Pattern), la méthode du Controleur ````curiosities#destroy```` (cf Controller#Action). Et tout devant, un prefix ````curiosity```` qui vous donne en fait le chemin à rajouter dans votre vue : ````curiosity_path````. Attention, ici, le controleur a besoin de l'id de la curiosité à supprimer. Il faut donc la passer dans les paramètres. Nous l'indiquons comme ceci : ````curiosity_path(curiosity)````.
+
+> Important : ````curiosity_path(curiosity)```` est une méthode générée par Ruby On Rails directement, en fonction de ce que vous avez défini dans le fichier ````route.rb````. 
+> Elle accepte un objet ````curiosity```` ou son identifiant ````curiosity.id````.
+
+Rajoutez le lien dans votre vue :
+
+````<%= link_to 'Supprimer', curiosity_path(@curiosity), method: :delete %>````
+
+Dans le cadre d'une suppression, nous rajoutons un élément important au link_to : la précision du verbe HTTP avec method: :delete.
+
+Testez maintenant votre nouvelle action dans le serveur.
+
+## Pour aller plus loin
+
+### Ajout d'une pop-up de confirmation
+
+Nous aimerions ajouter une pop-up de confirmation avec ````data: { confirm: 'Message de confirmation' }```` dans le ````link_to```` de la vue, car c'est une action sur laquelle l'utilisateur ne pourra pas revenir. Nous voulons donc être sûrs de son choix.
+
+Aidez-vous de la documentation du [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) et ajoutez cette pop-up !
+
+### Ajout d'une image
+
+Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du texte Supprimer. Amusez-vous à remplacer ce texte par une icône en utilisant les icônes bootstrap, dont vous pouvez trouver la documentation [ici](http://getbootstrap.com/components/) !
+
 ### Lancer le serveur sur lequel va tourner l'application
 
 En premier lieu, vérifiez que votre application a tous les Gems (plug-ins, bibliothèques... bref des briques de code) qu'elle utilise à disposition : vous pouvez les installer automatiquement en faisant la commande ````bundle install```` dans votre console, à l'intérieur du dossier de votre projet ````week-6````.
