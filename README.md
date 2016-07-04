@@ -107,7 +107,7 @@ Vous retrouvez bien le verbe HTTP ````DELETE```` (cf Verb), l'url ````/curiosity
 
 Rajoutez le lien dans votre vue :
 
-````<%= link_to 'Supprimer', curiosity_path(@curiosity), method: :delete %>````
+````<%= link_to 'Supprimer', curiosity_path(curiosity), method: :delete %>````
 
 Dans le cadre d'une suppression, nous rajoutons un élément important au link_to : la précision du verbe HTTP avec method: :delete.
 
