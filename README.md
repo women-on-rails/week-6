@@ -125,7 +125,15 @@ Aidez-vous de la documentation du [link_to](http://api.rubyonrails.org/classes/A
 
 Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du texte Supprimer. Amusez-vous à remplacer ce texte par une icône en utilisant les icônes bootstrap, dont vous pouvez trouver la documentation [ici](http://getbootstrap.com/components/) !
 
-### Lancer le serveur sur lequel va tourner l'application
+### Afficher une curiosité en particulier
+
+- Ajouter une route dans le fichier ````config/routes```` pour ````GET```` l'url ````curiosity/:id```` vers une méthode ````show```` du controleur ````Curiosities````.
+- Créer la méthode ````show```` dans le controleur ````Curiosities```` pour retrouver la curiosité ````@curiosity```` qu'on affichera dans la vue, grâce au ````params[:id]````.
+- Créer un ````link_to```` vers la curiosité dans ````index.html```` dans la boucle de ````@curiosities```` en vérifiant le chemin via ````rake routes````.
+- Créer la vue ````show.html```` dans ````app/views/curiosities```` et afficher le nom de la curiosité grâce à la variable définit dans le controleur ````<%= @curiosity.name %>````
+- Pimper la vue : rajouter l'image, la description, des balises html, du css
+
+## Lancer le serveur sur lequel va tourner l'application
 
 En premier lieu, vérifiez que votre application a tous les Gems (plug-ins, bibliothèques... bref des briques de code) qu'elle utilise à disposition : vous pouvez les installer automatiquement en faisant la commande ````bundle install```` dans votre console, à l'intérieur du dossier de votre projet ````week-6````.
 
