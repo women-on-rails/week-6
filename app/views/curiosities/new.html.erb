@@ -1,0 +1,22 @@
+<h1> Création d'une nouvelle curiosité </h1>
+
+<%= form_for :curiosity, url: curiosities_path do |c| %>
+  <div class="form-group">
+  	<%= c.label :name %>
+    <%= c.text_field :name, class: 'form-control' %>
+  </div>  
+  <div class="form-group">
+  	<%= c.label :description %>
+    <%= c.text_field :description, class: 'form-control' %>
+  </div> 
+  <div class="form-group">
+  	<%= c.label :image_url %>
+    <%= c.text_field :image_url, class: 'form-control' %>
+  </div> 
+  <div class="form-group">
+  	<%= c.label :image_text %>
+    <%= c.text_field :image_text, class: 'form-control' %>
+  </div> 
+  
+  <%= c.submit 'Créer la curiosité', class: "btn btn-default" %>
+<% end %>

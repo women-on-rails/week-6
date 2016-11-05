@@ -2,7 +2,7 @@
 
 Slides du cours disponibles [ici](http://slides.com/women_on_rails/week-5)
 
-Ce tutoriel a pour objectif de comprendre comment manipuler des objets dans le controleur et passer les données de ces objets à des vues, dans le cadre du cycle 1 des ateliers Women On Rails.
+Ce tutoriel a pour objectif de comprendre comment manipuler des objets dans le controleur et passer les données de ces objets à des vues (creation et édition), dans le cadre du cycle 1 des ateliers Women On Rails.
 
 # Étape 1 : Rappels
 
@@ -39,177 +39,148 @@ De plus, il y a 7 actions de base dans chaque contrôleur Rails:
 
 Ouvrez votre projet avec Cloud9, ou l'éditeur que vous utilisez si vous avez une installation native.
 
-Si vous utilisez SublimeText, vous pouvez faire subl . dans la console pour ouvrir directement votre projet. (subl c'est SublimeText, l'espace c'est parce que la commande est finie, et le point c'est pour dire "ouvre dans Sublime Text tout le dossier dans lequel je suis, en un coup").
+Si vous utilisez SublimeText, vous pouvez faire ```subl .``` dans la console pour ouvrir directement votre projet. (subl c'est SublimeText, l'espace c'est parce que la commande est finie, et le point c'est pour dire "ouvre dans Sublime Text tout le dossier dans lequel je suis, en un coup").
 
-## Faire une page principale pour chaque curiosité
+## Ajout d'un formulaire de création des curiosités
 
-### Créer le controleur
+Nous avons créé des moyens d'afficher ou détruire une curiosité spécifique lors du tutoriel [week-5](https://github.com/women-on-rails/week-5). Nous allons maintenant faire en sorte de pouvoir créer une nouvelle curiosité.
 
-Pour commencer, créez le fichier ``` app/controllers/curiosities_controller.rb ```.
-Ce fichier est pour le moment vide.
+Si l'on reprend les actions de base d'un controleur Rails, voici celles qui nous intéressent:
+- NEW : affiche le formulaire pour créer une nouvelle ressource (action GET)
+- CREATE : une fois le précédent formulaire complété, crée la ressource (action POST)
 
-![Controleur vide](/images/readme/empty_controller.png)
+Allons ajouter ces deux nouvelles méthodes à notre controleur ``` CuriositiesController ```.
 
-Nous allons définir à l'intérieur de ce fichier la classe ``` CuriositiesController ``` qui va nous permettre d'orchestrer les accès aux vues des curiosités.
+### Ajout de la méthode ```new``` dans le controleur ```CuriositiesController```
 
-Pour cela, ajoutez le code suivant dans le fichier ``` app/controllers/curiosities_controller.rb ```:
+Ouvrez le fichier ``` app/controllers/curiosities_controller.rb```. Pour le moment, il contient les méthodes ``` show ``` et ``` destroy ```. Ajoutons-y la méthode ``` new ``` qui permet d'instancier une nouvelle curiosité que nous utiliserons dans le formulaire de création.
 
-![Controleur défini](/images/readme/defined_class.png)
+! IMAGE !
 
-Dans votre classe ``` CuriositiesController ```, vous allez ajouter les méthodes qui vont définir les actions possibles à faire sur des curiosités, dans l'application.
+Maintenant, occupons-nous de la vue associée à cette méthode ```new```.
 
-Ici, nous commençons donc par travailler sur l'action d'affichage d'une curiosité.
+### Ajout du formulaire de création
 
-![Définition de la méthode ``` show ```](/images/readme/description_show.png)
+Créez le fichier ``` app/views/curiosities/new.html.erb ```.
+Ce fichier va contenir un formulaire permettant de créer une curiosité composée d'un nom (``` name ```), d'une description (``` description ```), d'un lien vers une image (``` image_url ```) et d'une description relative à l'image (``` image_text ```).
 
-Nous avons besoin de définir ce qu'il se passe quand un utilisateur demande à voir les détails d'une curiosité.
+Voici comment serait un formulaire créé simplement avec du HTML et du CSS version Bootstrap :
+``` HTML
+<h1> Création d'une nouvelle curiosité </h1>
 
-Dans la méthode ``` show ```, nous allons récupérer les données d'une curiosité, contenues dans la base de données, grâce aux paramètres de l'url ```/curiosities/3```. Puis nous allons les stocker dans une instance de ``` Curiosity ``` et passer cette instance à une vue pour les afficher.
+<form action="/curiosities" method="post">
+  <div class="form-group">
+    <label for="curiosityName">Name</label>
+    <input type="text" class="form-control" name="curiosity[name]">
+  </div>
+  <div class="form-group">
+    <label for="curiosityDescription">Description</label>
+    <input type="text" class="form-control" name="curiosity[description]">
+  </div>
+  <div class="form-group">
+    <label for="curiosityImageUrl">Image Url</label>
+    <input type="text" class="form-control" name="curiosity[image_url]">
+  </div>
+  <div class="form-group">
+    <label for="curiosityImageText">Image text</label>
+    <input type="text" class="form-control" name="curiosity[image_text]">
+  </div>
+  <input type="submit" value="Créer la curiosité" class="btn btn-default" />
+</form>
+```
 
-Rajoutez la méthode ``` show ``` et ce qu'elle fait dans le controleur ``` Curiosities ``` qui se trouve dans ``` app/controllers/curiosities_controller.rb ``` :
+Nous utilisons Ruby On Rails pour créer notre application. Nous allons donc utiliser plus que du HTML pour générer notre formulaire. Cela va nous éviter des erreurs, ajouter de la logique de sécurité automatiquement et permettre de réutiliser ce formulaire par la suite pour l'édition des curiosités.
 
-![Description action](/images/readme/instance.png)
+Voici le code de notre formulaire, avec du HTML et des outils fournis par Ruby On Rails :
 
-> Astuce : Les valeurs contenues dans la variable ``` params ``` viennent du navigateur de l'utilisateur. Il les envoie au serveur lorsqu'une requete est effectuée. Par exemple, si un utilisateur demande:
-> http://localhost:3000/curiosities?toto=poulpe
-> Alors ``` params[:toto] ``` sera égal à poulpe.
-> La variable ``` params ``` est simplement un tableau de valeurs accessibles grace à des clés. Ici la valeur à laquelle accéder est poulpe et la clé d'accès est ``` :toto ```.
+``` Ruby
+<h1> Création d'une nouvelle curiosité </h1>
 
-Si à cette étape vous lancez un serveur Rails et que vous essayez d'aller sur ``` https://curiosites-[votrenom].c9users.io/curiosities/1 ``` (remplacez [votrenom] par le nom de votre compte), voici le résultat que vous obtiendrez :
+<%= form_for :curiosity, url: curiosities_path do |c| %>
+  <div class="form-group">
+	<%= c.label :name %>
+    <%= c.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+	<%= c.label :description %>
+    <%= c.text_field :description, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+	<%= c.label :image_url %>
+    <%= c.text_field :image_url, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+	<%= c.label :image_text %>
+    <%= c.text_field :image_text, class: 'form-control' %>
+  </div>
 
-![Erreur route manquante](/images/readme/error_view_missing_route.png)
+  <%= c.submit 'Créer la curiosité', class: "btn btn-default" %>
+<% end %>
+````
+#### Explication du formulaire
 
-Nous n'avons pas encore défini de route relative à la méthode ``` show ``` que nous venons de créer. Du coup, l'application ne sait pas comment réagir avec cette URL. Voyons maintenant comment définir cette nouvelle route !
+Avec Ruby On Rails, vous pouvez créer des formulaire de la manière suivante:
+``` Ruby
+<%= form_for :curiosity, url: curiosities_path do |c| %>
+````
 
-### Créer la route
+Cette ligne permet d'ouvrir un formulaire.
+Le formulaire se finit toujours par <% end %> car c'est un bloc.
 
-Nous allons créer une nouvelle route dans le fichier ``` config/routes.rb ``` pour signifier à la fois quelle action HTTP nous voulons accomplir (ici ``` GET ```), le controleur de l'objet associé (ici ``` curiosities ```) et la méthode qui définira l'action à faire quand l'utilisateur cliquera sur le lien (ici ``` show ```).
+Ici, ``` curiosities_path ``` réfère à l'action à effectuer avec les données du formulaire quand l'utilisateur clique sur le bouton `Créer la curiosité`. Notez que le formulaire fait des requetes HTTP ``` POST ``` ce qui permet au controleur de savoir quelle méthode utiliser.
 
-Ce travail permet d'associer une URL (sur laquelle veut se rendre un utilisateur) à une action de controleur.
+La section suivante permet d'ajouter un champ texte à votre formulaire, avec son label:
+``` Ruby
+  <div class="form-group">
+	<%= c.label :name %>
+    <%= c.text_field :name, class: 'form-control' %>
+  </div>
+````
 
-Rajoutez la ligne suivante dans le fichier ``` config/routes.rb ``` :
+La section suivante permet de créer le bouton pour soumettre le formulaire:
+``` Ruby
+  <%= c.submit 'Créer la curiosité', class: "btn btn-default" %>
+````
 
-![Définition route](/images/readme/routes.png)
+### Ajout des nouvelles routes
 
-Si vous lancez un serveur Rails et que vous essayez d'aller sur ``` https://curiosites-[votrenom].c9users.io/curiosities/1 ```, voici les résultats que vous pourriez obtenir :
+Nous avons créé la méthode ``` new ``` dans le controleur ``` CuriositiesController``` et la vue associée. Maintenant, nous devons permettre à un utilisateur d'aller sur cette vue. Pour cela, ouvrez le fichier ``` config/routes.rb ``` et ajoutez-y deux nouvelles routes:
 
-![Erreur curiosité inconnue](/images/readme/error_view_record_not_found.png)
+! IMAGE !
 
-Ici, l'application n'arrive pas à trouver la curiosité demandée. La curiosité dont l'identifiant est passé en paramètre n'existe pas en base de données.
+La ligne ``` get '/curiosities/new', to: 'curiosities#new' ``` permet de rediriger l'utilisateur vers la page de création d'une curiosité.
 
-![Erreur vue manquante](/images/readme/error_view_missing_template.png)
+La ligne ``` post '/curiosities', to: 'curiosities#create', as: 'curiosities' ``` dit au controleur qu'avec les données du formulaire, on veut utiliser ce qui est contenu dans une méthode ``` create```.
 
-Cette fois l'application sait comment réagir avec cette URL. Le souci maintenant, c'est que la vue associée n'existe pas encore.
+> Astuce : Notez que le code ``` , as: 'curiosities' ``` a été enlevé de la route ``` delete '/curiosities/:id', to: 'curiosities#destroy' ``` et ajouté à la route ``` post '/curiosities', to: 'curiosities#create' ```.
+> Ce bout de code ne doit etre écrit qu'une fois. De plus la position des routes est importante.
+> Si vous obtenez une erreur, vérifiez l'ordre de vos routes.
 
-### Ajouter le lien pour accéder à une curiosité dans la vue
+### Ajout de la méthode ``` create ``` dans le controleur ``` CuriositiesController ```
 
-Il faut maintenant afficher à l'utilisateur qu'il peut afficher une curiosité spécifique. Pour cela, dans la vue, nous allons créer un lien dans la boucle de toutes les curiosités contenant le chemin pour afficher une instance en particulier.
+A ce stade, nous avons un formulaire mais ne savons pas comment utiliser les donnés qu'il contient.
 
- Un lien dynamique se construit de cette façon en Ruby On Rails :
+Ouvrez de nouveau le fichier ``` app/controllers/curiosities_controller.rb```. Ajoutons-y la méthode ``` create ``` qui permet de sauvegarder en base de données une nouvelle curiosité dont nous avons récupéré les informations grace au formulaire de création.
 
-``` <%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_controleur %> ```
+! IMAGE !
 
-Il faut trouver le chemin (``` path ```) qui indiquera la route dans le fichier ``` config/routes.rb ``` vers la méthode du controleur. Pour trouver ce chemin, vous pouvez entrer ``` rake routes ``` dans votre terminal.
-
-Ce qui vous donne :
-
-![Rake routes](/images/readme/rake_routes.png)
-
-La ligne qui nous interesse est la suivante : ```  GET  /curiosities/:id(.:format) curiosities#show ```
-
-Vous retrouvez bien le verbe HTTP ``` GET ``` (cf Verb), l'url ``` /curiosities/:id ```  (cf URI Pattern), la méthode du Controleur ``` curiosities#show ``` (cf Controller#Action). Et tout devant, un prefix ``` curiosities ``` qui vous donne en fait le chemin à rajouter dans votre vue : ``` curiosities_path ```.
-
-Attention, ici, le controleur a besoin de l'identifiant (ID) de la curiosité à afficher. Il faut donc la passer dans les paramètres. Nous l'indiquons comme ceci : ``` curiosities_path(curiosity) ```.
-
-> Important : ``` curiosities_path(curiosity) est une méthode générée par Ruby On Rails directement, en fonction de ce que vous avez défini dans le fichier ``` route.rb ``` . Elle accepte en parametre un objet ``` curiosity ``` ou son identifiant ``` curiosity.id ```.
-
-Rajoutez le lien dans votre vue ``` app/views/home/index.html ``` :
-
-![Lien vers la curiosité](/images/readme/view_index_code.png)
-
-Testez maintenant votre nouveau lien en lançant un serveur Rails. Il s'affiche bien dans votre vue :
-
-![Liste des curiosités](/images/readme/view_display_link.png)
-
-Par contre, si vous cliquez dessus, vous obtenez toujours l'erreur sur la vue manquante.
-
-![Erreur vue manquante](/images/readme/error_view_missing_template.png)
-
-C'est normal, la vue liée à l'action ``` show ``` n'existe pas encore. L'application sait où aller, quoi passer à une vue mais ne connait pas encore cette vue. Construisons la !
-
-### Créer la vue
-
-Allez dans ```app/views``` et créez le dossier ```curiosities```. Ce dossier contiendra toutes les vues relatives au controleur ``` CuriositiesController ``` créé précedemment.
-
-Puis, créez un fichier nommé ``` show.html.erb ``` dans le dossier ``` Curiosities ```, qui contiendra tout ce que vous voulez afficher concernant une curiosité.
-
-Pour afficher les informations d'une curiosité, il faut manipuler la curiosité contenue dans la variable ``` @curiosity ``` (que nous avons définie précédemment) passée à la vue par le controleur.
-
-![Code pour la vue / méthode SHOW](/images/readme/view_show_code.png)
-
-ce code donnera un affiche comme suit:
-
-![Vue / méthode SHOW](/images/readme/view_display_show.png)
+Et maintenant, testez votre formulaire !
 
 # Étape 3 : Pour aller plus loin
 
-## Détruire une instance en passant par le navigateur
+## Ajout du formulaire de création
 
-### Créer la route
+! EN CONSTRUCTION !
 
-Pour commencer, nous allons créer une nouvelle route dans le fichier ````config/routes.rb```` pour signifier à la fois quelle action HTTP nous voulons accomplir (ici ````delete````), le controleur de l'objet associé (ici ````curiosities````) et la méthode qui définira l'action à faire quand l'utilisateur cliquera sur le lien (ici ````destroy````).
+## Ajout d'une pop-up de confirmation
 
-Rajoutez la ligne suivante dans le fichier ````config/routes.rb```` :
+Nous aimerions ajouter une pop-up de confirmation avec ````data: { confirm: 'Message de confirmation' }```` dans le ````link_to```` de la vue, car c'est une action sur laquelle l'utilisateur ne pourra pas revenir. Nous voulons donc être sûrs de son choix.
 
-![Routes / DELETE](/images/readme/routes_delete.png)
+Aidez-vous de la documentation du [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) et ajoutez cette pop-up !
 
-### Ajouter la méthode correspondante dans le controleur
+## Ajout d'une image
 
-Maintenant, il s'agit de définir ce qu'il se passe quand l'utilisateur va cliquer sur le lien pour détruire une instance. Dans la méthode ````destroy````, nous allons récupérer l'instance que nous voulons supprimer, grâce aux paramètres de l'url ````/curiosities/25````. Ensuite, nous allons la supprimer dans la base de données grâce à la méthode ````.delete```` et ensuite rediriger l'utilisateur sur la vue de toutes les curiosités.
-
-Rajoutez la méthode ````destroy```` et ce qu'elle fait dans le controleur ````Curiosities```` qui se trouve dans ````app/controllers/curiosities.rb```` :
-
-![Controleur / méthode Destroy](/images/readme/controller_destroy_method.png)
-
-> Rappel :
-> Les valeurs contenues dans la variable ``` params ``` viennent du navigateur de l'utilisateur.
-> Il les envoie au serveur lorsqu'une requete est effectuée. Par exemple, si un utilisateur demande:
-> http://localhost:3000/curiosities?toto=poulpe
-
-> Alors params[:toto] sera égal à poulpe.
-
-> La variable ````params```` est simplement un tableau de valeurs accessibles grace à des clés.
-> Ici la valeur à laquelle accéder est ````poulpe```` et la clé d'accès est ````:toto````.
-
-### Ajouter le lien pour supprimer les curiosités dans la vue
-
-Il faut maintenant afficher à l'utilisateur qu'il peut supprimer une curiosité. Pour cela, dans la vue, nous allons créer un lien dans la boucle de toutes les curiosités contenant le chemin pour détruire une instance en particulier.
-
-> Rappel :
-> Un lien dynamique se construit de cette façon en Ruby On Rails :
-
-> ```Ruby <%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_controleur %>````
-
-Trouvons le chemin (``` path ```) qui indiquera la route dans le fichier ``` config/routes.rb ``` vers la méthode du controleur.
-
-> Rappel : vous pouvez entrer ``` rake routes ``` dans votre terminal pour trouver tous les chemins déjà définis.
-
-![Rake routes](/images/readme/rake_routes_delete.png)
-
-Vous retrouvez bien le verbe HTTP ``` DELETE ``` (cf Verb), l'url ``` /curiosity/:id ``` (cf URI Pattern), la méthode du Controleur ``` curiosities#destroy ``` (cf Controller#Action). Et tout devant, un prefix ``` curiosity ``` qui vous donne en fait le chemin à rajouter dans votre vue : ``` curiosity_path ```. Attention, ici, le controleur a besoin de l'identifiant de la curiosité à supprimer. Il faut donc la passer dans les paramètres. Nous l'indiquons comme ceci : ``` curiosity_path(curiosity) ```.
-
-> Rappel : ``` curiosities_path(curiosity) ``` est une méthode générée par Ruby On Rails directement, en fonction de ce que vous avez défini dans le fichier ``` route.rb ```.
-> Elle accepte un objet ``` curiosity ``` ou son identifiant ``` curiosity.id ```.
-
-Rajoutez le lien dans votre vue ``` app/views/home/index.html.erb ``` :
-
-![Lien pour détruire une curiosité ](/images/readme/view_index_code_delete.png)
-
-Dans le cadre d'une suppression, nous rajoutons un élément important au ``` link_to ``` : la précision du verbe HTTP avec ``` method: :delete ```.
-
-Testez maintenant votre nouvelle action sur votre application en détruisant l'une de vos curiosités.
-
-![Lien visible sur l'application, pour détruire une curiosité](/images/readme/view_index_button_delete.png)
+Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du texte Supprimer. Amusez-vous à remplacer ce texte par une icône en utilisant les icônes bootstrap, dont vous pouvez trouver la documentation [ici](http://getbootstrap.com/components/) !
 
 # Étape 4 : Enregistrer les modifications sur le répertoire distant
 
