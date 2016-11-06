@@ -2,7 +2,7 @@
 
 Slides du cours disponibles [ici](http://slides.com/women_on_rails/week-5)
 
-Ce tutoriel a pour objectif de comprendre comment manipuler des objets dans le controleur et passer les données de ces objets à des vues (creation et édition), dans le cadre du cycle 1 des ateliers Women On Rails.
+Ce tutoriel a pour objectif de comprendre comment manipuler des objets dans le contrôleur et passer les données de ces objets à des vues (creation et édition), dans le cadre du cycle 1 des ateliers Women On Rails.
 
 # Étape 1 : Rappels
 
@@ -45,13 +45,13 @@ Si vous utilisez SublimeText, vous pouvez faire ```subl .``` dans la console pou
 
 Nous avons créé des moyens d'afficher ou détruire une curiosité spécifique lors du tutoriel [week-5](https://github.com/women-on-rails/week-5). Nous allons maintenant faire en sorte de pouvoir créer une nouvelle curiosité.
 
-Si l'on reprend les actions de base d'un controleur Rails, voici celles qui nous intéressent:
+Si l'on reprend les actions de base d'un contrôleur Rails, voici celles qui nous intéressent:
 - NEW : affiche le formulaire pour créer une nouvelle ressource (action GET)
 - CREATE : une fois le précédent formulaire complété, crée la ressource (action POST)
 
-Nous allons ajouter pas à pas ces deux nouvelles méthodes à notre controleur ``` CuriositiesController ```.
+Nous allons ajouter pas à pas ces deux nouvelles méthodes à notre contrôleur ``` CuriositiesController ```.
 
-### Ajout de la méthode ```new``` dans le controleur ```CuriositiesController```
+### Ajout de la méthode ```new``` dans le contrôleur ```CuriositiesController```
 
 Ouvrez le fichier ``` app/controllers/curiosities_controller.rb```. Pour le moment, il contient les méthodes ``` show ``` et ``` destroy ```. Ajoutons-y la méthode ``` new ``` qui permet d'instancier une nouvelle curiosité que nous utiliserons dans le formulaire de création.
 
@@ -128,7 +128,7 @@ Avec Ruby On Rails, vous pouvez créer des formulaire de la manière suivante:
 Cette ligne permet d'ouvrir un formulaire.
 Le formulaire se finit toujours par <% end %> car c'est un bloc.
 
-Ici, ``` curiosities_path ``` réfère à l'action à effectuer avec les données du formulaire quand l'utilisateur clique sur le bouton `Créer la curiosité`. Notez que le formulaire fait des requetes HTTP ``` POST ``` ce qui permet au controleur de savoir quelle méthode utiliser.
+Ici, ``` curiosities_path ``` réfère à l'action à effectuer avec les données du formulaire quand l'utilisateur clique sur le bouton `Créer la curiosité`. Notez que le formulaire fait des requetes HTTP ``` POST ``` ce qui permet au contrôleur de savoir quelle méthode utiliser.
 
 La section suivante permet d'ajouter un champ texte à votre formulaire, avec son label:
 ``` Ruby
@@ -145,18 +145,18 @@ La section suivante permet de créer le bouton pour soumettre le formulaire:
 
 ### Ajout des nouvelles routes
 
-Nous avons créé la méthode ``` new ``` dans le controleur ``` CuriositiesController``` et la vue associée. Maintenant, nous devons permettre à un utilisateur d'aller sur cette vue. Pour cela, ouvrez le fichier ``` config/routes.rb ``` et ajoutez-y deux nouvelles routes:
+Nous avons créé la méthode ``` new ``` dans le contrôleur ``` CuriositiesController``` et la vue associée. Maintenant, nous devons permettre à un utilisateur d'aller sur cette vue. Pour cela, ouvrez le fichier ``` config/routes.rb ``` et ajoutez-y deux nouvelles routes:
 
 ![Routes](/images/readme/routes_new_create.png)
 
 La ligne ``` get 'curiosities/new', to: 'curiosities#new', as: 'new_curiosity' ``` permet de rediriger l'utilisateur vers la page de création d'une curiosité.
 
-La ligne ``` post 'curiosities', to: 'curiosities#create', as: 'curiosities' ``` dit au controleur qu'avec les données du formulaire, on veut utiliser ce qui est contenu dans une méthode ``` create```.
+La ligne ``` post 'curiosities', to: 'curiosities#create', as: 'curiosities' ``` dit au contrôleur qu'avec les données du formulaire, on veut utiliser ce qui est contenu dans une méthode ``` create```.
 
 > Astuce : Notez que la position des routes est importante.
 > Si vous obtenez une erreur, vérifiez l'ordre de vos routes.
 
-### Ajout de la méthode ``` create ``` dans le controleur ``` CuriositiesController ```
+### Ajout de la méthode ``` create ``` dans le contrôleur ``` CuriositiesController ```
 
 A ce stade, nous avons un formulaire mais ne savons pas comment utiliser les donnés qu'il contient.
 
@@ -171,9 +171,9 @@ Il faut maintenant afficher à l'utilisateur qu'il peut créer une nouvelle curi
 > Rappel :
 > Un lien dynamique se construit de cette façon en Ruby On Rails :
 
-> ```Ruby <%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_controleur %>````
+> ```Ruby <%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_contrôleur %>````
 
-Trouvons le chemin (``` path ```) qui indiquera la route dans le fichier ``` config/routes.rb ``` vers la méthode du controleur.
+Trouvons le chemin (``` path ```) qui indiquera la route dans le fichier ``` config/routes.rb ``` vers la méthode du contrôleur.
 
 > Rappel : vous pouvez entrer ``` rake routes ``` dans votre terminal pour trouver tous les chemins déjà définis.
 
@@ -201,7 +201,7 @@ Et maintenant, testez votre formulaire !
 
 Reprenez les étapes de construction du formulaire de création en vous aidant du [guide Ruby On Rails](http://guides.rubyonrails.org/getting_started.html#updating-articles) pour créer un formulaire d'édition des curiosités.
 
-Les méthodes à ajouter au controleur sont:
+Les méthodes à ajouter au contrôleur sont:
 - EDIT : affiche le formulaire d’édition d'une ressource (action GET)
 - UPDATE : met a jour une ressource spécifiée (action PUT)
 
