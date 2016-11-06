@@ -1,4 +1,9 @@
 <h2> Ses Curiosités </h2>
+
+<p>
+  <%= link_to 'Nouvelle Curiosité', new_curiosity_path %>
+</p>
+
 <section id="curiosities">
     <div class="container">
       <% @my_curiosities.each_with_index do |curiosity, index| %>

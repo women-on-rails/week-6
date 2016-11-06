@@ -49,13 +49,13 @@ Si l'on reprend les actions de base d'un controleur Rails, voici celles qui nous
 - NEW : affiche le formulaire pour créer une nouvelle ressource (action GET)
 - CREATE : une fois le précédent formulaire complété, crée la ressource (action POST)
 
-Allons ajouter ces deux nouvelles méthodes à notre controleur ``` CuriositiesController ```.
+Nous allons ajouter pas à pas ces deux nouvelles méthodes à notre controleur ``` CuriositiesController ```.
 
 ### Ajout de la méthode ```new``` dans le controleur ```CuriositiesController```
 
 Ouvrez le fichier ``` app/controllers/curiosities_controller.rb```. Pour le moment, il contient les méthodes ``` show ``` et ``` destroy ```. Ajoutons-y la méthode ``` new ``` qui permet d'instancier une nouvelle curiosité que nous utiliserons dans le formulaire de création.
 
-! IMAGE !
+![Methode NEW](/images/readme/controller_method_new.png)
 
 Maintenant, occupons-nous de la vue associée à cette méthode ```new```.
 
@@ -117,6 +117,7 @@ Voici le code de notre formulaire, avec du HTML et des outils fournis par Ruby O
   <%= c.submit 'Créer la curiosité', class: "btn btn-default" %>
 <% end %>
 ````
+
 #### Explication du formulaire
 
 Avec Ruby On Rails, vous pouvez créer des formulaire de la manière suivante:
@@ -146,14 +147,13 @@ La section suivante permet de créer le bouton pour soumettre le formulaire:
 
 Nous avons créé la méthode ``` new ``` dans le controleur ``` CuriositiesController``` et la vue associée. Maintenant, nous devons permettre à un utilisateur d'aller sur cette vue. Pour cela, ouvrez le fichier ``` config/routes.rb ``` et ajoutez-y deux nouvelles routes:
 
-! IMAGE !
+![Routes](/images/readme/routes_new_create.png)
 
-La ligne ``` get '/curiosities/new', to: 'curiosities#new' ``` permet de rediriger l'utilisateur vers la page de création d'une curiosité.
+La ligne ``` get 'curiosities/new', to: 'curiosities#new', as: 'new_curiosity' ``` permet de rediriger l'utilisateur vers la page de création d'une curiosité.
 
-La ligne ``` post '/curiosities', to: 'curiosities#create', as: 'curiosities' ``` dit au controleur qu'avec les données du formulaire, on veut utiliser ce qui est contenu dans une méthode ``` create```.
+La ligne ``` post 'curiosities', to: 'curiosities#create', as: 'curiosities' ``` dit au controleur qu'avec les données du formulaire, on veut utiliser ce qui est contenu dans une méthode ``` create```.
 
-> Astuce : Notez que le code ``` , as: 'curiosities' ``` a été enlevé de la route ``` delete '/curiosities/:id', to: 'curiosities#destroy' ``` et ajouté à la route ``` post '/curiosities', to: 'curiosities#create' ```.
-> Ce bout de code ne doit etre écrit qu'une fois. De plus la position des routes est importante.
+> Astuce : Notez que la position des routes est importante.
 > Si vous obtenez une erreur, vérifiez l'ordre de vos routes.
 
 ### Ajout de la méthode ``` create ``` dans le controleur ``` CuriositiesController ```
@@ -162,9 +162,38 @@ A ce stade, nous avons un formulaire mais ne savons pas comment utiliser les don
 
 Ouvrez de nouveau le fichier ``` app/controllers/curiosities_controller.rb```. Ajoutons-y la méthode ``` create ``` qui permet de sauvegarder en base de données une nouvelle curiosité dont nous avons récupéré les informations grace au formulaire de création.
 
-! IMAGE !
+![Methode CREATE](/images/readme/controller_method_create.png)
+
+### Ajouter le lien pour créer une curiosité dans la vue
+
+Il faut maintenant afficher à l'utilisateur qu'il peut créer une nouvelle curiosité. Pour cela, dans la vue principale, nous allons créer un lien contenant le chemin vers le formulaire de création.
+
+> Rappel :
+> Un lien dynamique se construit de cette façon en Ruby On Rails :
+
+> ```Ruby <%= link_to 'Nom du lien qui sera affiché dans la vue', chemin_vers_le_controleur %>````
+
+Trouvons le chemin (``` path ```) qui indiquera la route dans le fichier ``` config/routes.rb ``` vers la méthode du controleur.
+
+> Rappel : vous pouvez entrer ``` rake routes ``` dans votre terminal pour trouver tous les chemins déjà définis.
+
+![Rake routes](/images/readme/rake_routes.png)
+
+Vous retrouvez bien le verbe HTTP ``` GET ``` (cf Verb), l'url ``` /curiosities/new ``` (cf URI Pattern), la méthode du Contrôleur ``` curiosities#new ``` (cf Controller#Action). Et tout devant, un préfixe ``` new_curiosity ``` qui vous donne en fait le chemin à rajouter dans votre vue : ``` new_curiosity_path ```. Ici, pas besoin de donner l'identifiant d'une curiosité puisqu'elle n'existe pas encore.
+
+> Rappel : ``` new_curiosity_path ``` est une méthode générée par Ruby On Rails directement, en fonction de ce que vous avez défini dans le fichier ``` route.rb ```.
+
+Rajoutez le lien dans votre vue ``` app/views/home/index.html.erb ``` :
+
+![Lien pour créer une curiosité ](/images/readme/view_code_link_formular.png)
 
 Et maintenant, testez votre formulaire !
+
+![Lien vers formulaire](/images/readme/view_link_formular.png)
+
+![Formulaire](/images/readme/formular.png)
+
+![Vue apres creation](/images/readme/view_show.png)
 
 # Étape 3 : Pour aller plus loin
 
@@ -172,15 +201,9 @@ Et maintenant, testez votre formulaire !
 
 ! EN CONSTRUCTION !
 
-## Ajout d'une pop-up de confirmation
-
-Nous aimerions ajouter une pop-up de confirmation avec ````data: { confirm: 'Message de confirmation' }```` dans le ````link_to```` de la vue, car c'est une action sur laquelle l'utilisateur ne pourra pas revenir. Nous voulons donc être sûrs de son choix.
-
-Aidez-vous de la documentation du [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) et ajoutez cette pop-up !
-
 ## Ajout d'une image
 
-Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du texte Supprimer. Amusez-vous à remplacer ce texte par une icône en utilisant les icônes bootstrap, dont vous pouvez trouver la documentation [ici](http://getbootstrap.com/components/) !
+Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du texte `Nouvelle Curiosité` du lien de création. Amusez-vous à remplacer ce texte par une icône en utilisant les icônes bootstrap, dont vous pouvez trouver la documentation [ici](http://getbootstrap.com/components/) !
 
 # Étape 4 : Enregistrer les modifications sur le répertoire distant
 
