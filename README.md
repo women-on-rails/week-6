@@ -197,9 +197,19 @@ Et maintenant, testez votre formulaire !
 
 # Étape 3 : Pour aller plus loin
 
-## Ajout du formulaire de création
+## Ajout du formulaire d'édition
 
-! EN CONSTRUCTION !
+Reprenez les étapes de construction du formulaire de création en vous aidant du [guide Ruby On Rails](http://guides.rubyonrails.org/getting_started.html#updating-articles) pour créer un formulaire d'édition des curiosités.
+
+Les méthodes à ajouter au controleur sont:
+- EDIT : affiche le formulaire d’édition d'une ressource (action GET)
+- UPDATE : met a jour une ressource spécifiée (action PUT)
+
+La vue à créer se nomme ``` app/views/curiosities/edit.html.erb ```.
+
+## Utilisation d'un partial
+
+Vous avez créé un formulaire de création et un formulaire d'édition. Vous pouvez constater qu'ils se ressemblent tres fortement. Pour éviter de dupliquer votre code, essayez d'utiliser un [partial](http://french.railstutorial.org/chapters/filling-in-the-layout#sec:partials), contenant le formulaire, que vous inclurez dans les fichiers ``` app/views/curiosities/new.html ``` et ``` app/views/curiosities/edit.html.erb ```.
 
 ## Ajout d'une image
 
@@ -214,3 +224,4 @@ Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du
 - La documentation de Ruby On Rails : http://api.rubyonrails.org/
 - Active Record : https://fr.wikipedia.org/wiki/Active_record (concept en français) ou http://guides.rubyonrails.org/active_record_basics.html (introduction de Rails, en anglais)
 - Les routes dans Ruby On Rails : http://guides.rubyonrails.org/routing.html
+- Informations sur les partials : http://french.railstutorial.org/chapters/filling-in-the-layout#sec:partials
