@@ -225,3 +225,6 @@ Pour rendre notre page plus sympa, nous aimerions avoir une image à la place du
 - Active Record : https://fr.wikipedia.org/wiki/Active_record (concept en français) ou http://guides.rubyonrails.org/active_record_basics.html (introduction de Rails, en anglais)
 - Les routes dans Ruby On Rails : http://guides.rubyonrails.org/routing.html
 - Informations sur les partials : http://french.railstutorial.org/chapters/filling-in-the-layout#sec:partials
+
+# Et ensuite ?
+Venez apprendre à mettre en ligne une application web avec le tutoriel [Week-7](https://github.com/women-on-rails/week-7)
