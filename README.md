@@ -39,6 +39,8 @@ De plus, chaque contrôleur Rails possède 7 actions de base, chaque action corr
 
 Ouvrez votre projet avec Cloud9, ou l'éditeur que vous utilisez si vous avez une installation native.
 
+Pour les installations natives:
+
 Si vous utilisez SublimeText, vous pouvez faire ```subl .``` dans la console pour ouvrir directement votre projet. (subl c'est SublimeText, l'espace c'est parce que la commande est finie, et le point c'est pour dire "ouvre dans Sublime Text tout le dossier dans lequel je suis, en un coup").
 
 ## Ajout d'un formulaire de création des curiosités
